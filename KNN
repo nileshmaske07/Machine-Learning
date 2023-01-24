@@ -1,0 +1,104 @@
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+This is a temporary script file.
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt  
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+
+
+# creat random points
+x = [random.randint(0, 50) for n in range(300)]
+y = [random.randint(0, 50) for n in range(300)]
+
+#ploting random points
+print(len(x))
+plt.scatter(x, y)
+plt.show()
+
+
+
+#creat labeling column
+z=[]
+for i, j in zip(x,y):
+  if (i*j)>100:
+    z.append(0)
+  else:
+    z.append(1)
+
+
+
+#ploting random variables as per their classes
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(x, y, c=z, lw=0)
+
+
+
+#divide the list in to training and testing (80% & 20%)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.2)
+z_train, z_test=train_test_split(z,test_size=0.2)
+
+
+
+#Creating Knn function
+dis=[]
+z_pred=[]
+def knn1(x_1,y_1,x_2,y_2,k):
+  # for x_2,y_2 in zip(x_2,y_2):
+  #print(len(x_2))
+  for i in range(0,len(x_2)):
+    z_pred_temp=[]
+    dis=[]
+    #print("Given Point: ",x_2[i],y_2[i])
+    for j in range(0,len(x_1)):
+      # print("refence point",x_1[j],y_1[j])     
+      d=((x_2[i]-x_1[j])**2+(y_2[i]-y_1[j])**2)**0.5
+      dis.append(d)
+    
+    rank = [sorted(dis).index(x_x) for x_x in dis]
+    # print("rank: ",rank)
+    for n in range(0,k):
+      a= rank.count(n)
+      if rank.count(n)==1 and rank.count(n)>0:
+        b=rank.index(n)
+        z_pred_temp.append(z_train[b])
+        
+      elif rank.count(n)>0:
+        for w in rank:
+          if n==w:
+            b=rank.index(w)
+            z_pred_temp.append(z_train[b])
+
+
+
+    #print("z_pred_temp: ",z_pred_temp)
+    z_pred_temp = z_pred_temp[:k]
+    #print("z_pred_temp: ",z_pred_temp)
+
+    if z_pred_temp.count(0)>z_pred_temp.count(1):
+      z_pred.append(0)    
+    else:
+      z_pred.append(1)
+    
+    #print("predicted Z_value: ",z_pred)
+    
+  #print(len(z_pred))
+  #print("predicted Z_value: ",z_pred)
+  accuracy = (sum(1 for x_i,y_i in zip(z_pred,z_test) if x_i == y_i) / float(len(z_test)))*100
+  print("accuracy of k =",k,"is: ", accuracy,"%")
+
+
+knn1(X_train,y_train,X_test,y_test,3)
+knn1(X_train,y_train,X_test,y_test,5)
+knn1(X_train,y_train,X_test,y_test,7)
+
+
+
+
+
