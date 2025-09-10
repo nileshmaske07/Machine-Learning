@@ -1,0 +1,32 @@
+{
+    "python.defaultInterpreterPath": "python3",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black",
+    "python.analysis.autoImportCompletions": true,
+    "github.copilot.enable": {
+        "*": true,
+        "python": true,
+        "jupyter": true,
+        "markdown": true,
+        "json": true
+    },
+    "files.associations": {
+        "*.py": "python"
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "jupyter.askForKernelRestart": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.advanced": {
+        "length": 500,
+        "temperature": "",
+        "top_p": "",
+        "stops": {
+            "*": ["\n\n\n"]
+        }
+    }
+}
